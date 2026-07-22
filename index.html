@@ -2673,19 +2673,17 @@
 
 <body>
     <!-- ============================================
-    ECRAN DE CHARGEMENT AVEC LOGO IMAGE - CENUMEP
+    ECRAN DE CHARGEMENT PREMIUM - CENUMEP
     ============================================ -->
     <div class="loader-overlay" id="loaderOverlay">
         <div class="loader-container">
-            <!-- Logo animé avec image -->
+            <!-- Logo animé -->
             <div class="loader-logo-wrapper">
                 <div class="loader-logo-ring"></div>
+                <div class="loader-logo-ring loader-logo-ring-2"></div>
                 <div class="loader-logo">
                     <!-- 
-                        INSTRUCTION: Remplacez l'URL ci-dessous par le chemin de votre image
-                        Exemple: 
-                        - image locale: "images/logo-cenumep.png"
-                        - image en ligne: "https://mon-site.com/logo.png"
+                        INSTRUCTION: Remplacez "votre-logo.png" par le chemin de votre image
                     -->
                     <img src="images/lg c.png" alt="CENUMEP Logo" class="loader-logo-img" />
                 </div>
@@ -2693,17 +2691,21 @@
             
             <!-- Nom du site -->
             <div class="loader-brand">CENUMEP</div>
+            <div class="loader-sub">RDC-ASBL</div>
             
             <!-- Barre de progression -->
             <div class="loader-progress-container">
                 <div class="loader-progress-bar" id="loaderProgressBar"></div>
             </div>
+            
+            <!-- Pourcentage -->
+            <div class="loader-percentage" id="loaderPercentage">0%</div>
         </div>
     </div>
 
     <style>
         /* ========================================
-           ECRAN DE CHARGEMENT AVEC IMAGE LOGO
+           ECRAN DE CHARGEMENT PREMIUM - RESPONSIVE
         ======================================== */
         .loader-overlay {
             position: fixed;
@@ -2711,12 +2713,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #0F4023;
+            background: linear-gradient(135deg, #0a1a2b 0%, #0F4023 50%, #0a2a1a 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 9999;
-            transition: opacity 0.6s ease, visibility 0.6s ease;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
         }
 
         .loader-overlay.fade-out {
@@ -2728,28 +2730,51 @@
         .loader-container {
             text-align: center;
             padding: 20px;
+            max-width: 90vw;
         }
 
-        /* Wrapper du logo */
+        /* ========================================
+           LOGO ANIMÉ
+        ======================================== */
         .loader-logo-wrapper {
             position: relative;
-            width: 120px;
-            height: 120px;
+            width: clamp(80px, 15vw, 150px);
+            height: clamp(80px, 15vw, 150px);
             margin: 0 auto 20px;
         }
 
-        /* Anneau rotatif */
+        /* Anneaux rotatifs */
         .loader-logo-ring {
             position: absolute;
-            top: -6px;
-            left: -6px;
-            width: 132px;
-            height: 132px;
+            top: -4px;
+            left: -4px;
+            width: calc(100% + 8px);
+            height: calc(100% + 8px);
             border-radius: 50%;
             border: 3px solid transparent;
-            border-top: 5px solid #C9A84C;
-            border-bottom: 5px solid #C9A84C;
+            border-top: 3px solid #C9A84C;
+            border-bottom: 3px solid #C9A84C;
             animation: loaderSpin 1.2s cubic-bezier(0.6, 0, 0.4, 1) infinite;
+        }
+
+        .loader-logo-ring-2 {
+            width: calc(100% + 16px);
+            height: calc(100% + 16px);
+            top: -8px;
+            left: -8px;
+            border-top: 2px solid rgba(201, 168, 76, 0.3);
+            border-bottom: 2px solid rgba(201, 168, 76, 0.3);
+            animation: loaderSpinReverse 1.8s cubic-bezier(0.6, 0, 0.4, 1) infinite;
+        }
+
+        @keyframes loaderSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes loaderSpinReverse {
+            0% { transform: rotate(360deg); }
+            100% { transform: rotate(0deg); }
         }
 
         /* Logo central avec image */
@@ -2758,12 +2783,15 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 100px;
-            height: 100px;
-            animation: loaderPulse 1.8s ease-in-out infinite;
+            width: clamp(55px, 10vw, 100px);
+            height: clamp(55px, 10vw, 100px);
+            animation: loaderPulse 2s ease-in-out infinite;
             display: flex;
             align-items: center;
             justify-content: center;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            padding: 10px;
         }
 
         .loader-logo-img {
@@ -2771,45 +2799,85 @@
             height: 100%;
             object-fit: contain;
             display: block;
-        }
-
-        @keyframes loaderSpin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            border-radius: 50%;
         }
 
         @keyframes loaderPulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.9; }
-            50% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.05); }
         }
 
-        /* Nom du site */
+        /* ========================================
+           TEXTE
+        ======================================== */
         .loader-brand {
             font-family: 'Playfair Display', serif;
-            font-size: 2rem;
+            font-size: clamp(1.5rem, 4vw, 2.8rem);
             font-weight: 700;
             color: #fff;
-            margin-bottom: 30px;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
+            animation: loaderFadeIn 0.8s ease;
+        }
+
+        .loader-sub {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(0.6rem, 1vw, 0.8rem);
+            color: rgba(255,255,255,0.3);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-top: -4px;
+            margin-bottom: 25px;
             animation: loaderFadeIn 1s ease;
         }
 
-        /* Barre de progression */
+        /* ========================================
+           BARRE DE PROGRESSION
+        ======================================== */
         .loader-progress-container {
-            width: 200px;
-            height: 3px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 3px;
+            width: clamp(150px, 25vw, 280px);
+            height: 4px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 4px;
             overflow: hidden;
-            margin: 0 auto;
+            margin: 0 auto 12px;
+            position: relative;
         }
 
         .loader-progress-bar {
             width: 0%;
             height: 100%;
-            background: #C9A84C;
-            border-radius: 3px;
+            background: linear-gradient(90deg, #C9A84C, #E8D5A3, #C9A84C);
+            border-radius: 4px;
             transition: width 0.3s ease;
+            position: relative;
+        }
+
+        .loader-progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: loaderShine 1.5s ease-in-out infinite;
+        }
+
+        @keyframes loaderShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* ========================================
+           POURCENTAGE
+        ======================================== */
+        .loader-percentage {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(0.8rem, 1.2vw, 1rem);
+            font-weight: 600;
+            color: #C9A84C;
+            letter-spacing: 1px;
+            animation: loaderFadeIn 1.2s ease;
         }
 
         @keyframes loaderFadeIn {
@@ -2822,45 +2890,85 @@
         ======================================== */
         @media (max-width: 768px) {
             .loader-logo-wrapper {
-                width: 90px;
-                height: 90px;
-            }
-            .loader-logo-ring {
-                width: 102px;
-                height: 102px;
-                border-width: 2.5px;
+                width: clamp(70px, 20vw, 100px);
+                height: clamp(70px, 20vw, 100px);
             }
             .loader-logo {
-                width: 60px;
-                height: 60px;
+                width: clamp(45px, 12vw, 70px);
+                height: clamp(45px, 12vw, 70px);
+                padding: 8px;
+            }
+            .loader-logo-ring {
+                border-width: 2.5px;
+            }
+            .loader-logo-ring-2 {
+                border-width: 1.5px;
             }
             .loader-brand {
-                font-size: 1.6rem;
+                font-size: clamp(1.3rem, 5vw, 1.8rem);
             }
             .loader-progress-container {
-                width: 160px;
+                width: clamp(120px, 40vw, 200px);
             }
         }
 
         @media (max-width: 480px) {
             .loader-logo-wrapper {
-                width: 70px;
-                height: 70px;
-            }
-            .loader-logo-ring {
-                width: 82px;
-                height: 82px;
-                border-width: 2px;
+                width: clamp(60px, 25vw, 80px);
+                height: clamp(60px, 25vw, 80px);
             }
             .loader-logo {
-                width: 45px;
-                height: 45px;
+                width: clamp(38px, 15vw, 55px);
+                height: clamp(38px, 15vw, 55px);
+                padding: 6px;
+            }
+            .loader-logo-ring {
+                border-width: 2px;
+                top: -3px;
+                left: -3px;
+                width: calc(100% + 6px);
+                height: calc(100% + 6px);
+            }
+            .loader-logo-ring-2 {
+                border-width: 1px;
+                top: -6px;
+                left: -6px;
+                width: calc(100% + 12px);
+                height: calc(100% + 12px);
             }
             .loader-brand {
-                font-size: 1.3rem;
+                font-size: clamp(1.1rem, 6vw, 1.4rem);
+                letter-spacing: 2px;
+            }
+            .loader-sub {
+                font-size: clamp(0.5rem, 1.2vw, 0.65rem);
+                letter-spacing: 3px;
+                margin-bottom: 18px;
             }
             .loader-progress-container {
-                width: 120px;
+                width: clamp(100px, 50vw, 150px);
+                height: 3px;
+            }
+            .loader-percentage {
+                font-size: clamp(0.7rem, 2vw, 0.85rem);
+            }
+        }
+
+        @media (max-width: 360px) {
+            .loader-logo-wrapper {
+                width: 55px;
+                height: 55px;
+            }
+            .loader-logo {
+                width: 35px;
+                height: 35px;
+                padding: 4px;
+            }
+            .loader-brand {
+                font-size: 1rem;
+            }
+            .loader-progress-container {
+                width: 90px;
             }
         }
     </style>
@@ -2872,28 +2980,29 @@
         document.addEventListener('DOMContentLoaded', function() {
             const loaderOverlay = document.getElementById('loaderOverlay');
             const progressBar = document.getElementById('loaderProgressBar');
+            const percentageEl = document.getElementById('loaderPercentage');
 
             let progress = 0;
 
             function updateLoader() {
-                const increment = Math.random() * 12 + 3;
+                const increment = Math.random() * 10 + 3;
                 progress = Math.min(progress + increment, 100);
                 
                 progressBar.style.width = progress + '%';
+                percentageEl.textContent = Math.round(progress) + '%';
 
                 if (progress >= 100) {
                     clearInterval(loaderInterval);
                     setTimeout(function() {
                         loaderOverlay.classList.add('fade-out');
-                    }, 400);
+                    }, 500);
                     return;
                 }
             }
 
-            const loaderInterval = setInterval(updateLoader, 200);
+            const loaderInterval = setInterval(updateLoader, 180);
         });
     </script>
-
     <!-- ============================================
     MODAL QR
     ============================================ -->
