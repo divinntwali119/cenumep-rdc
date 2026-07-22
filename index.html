@@ -2673,7 +2673,7 @@
 
 <body>
     <!-- ============================================
-    ECRAN DE CHARGEMENT PREMIUM - CENUMEP
+    ECRAN DE CHARGEMENT PREMIUM - FIXE - CENUMEP
     ============================================ -->
     <div class="loader-overlay" id="loaderOverlay">
         <div class="loader-container">
@@ -2705,7 +2705,7 @@
 
     <style>
         /* ========================================
-           ECRAN DE CHARGEMENT PREMIUM - RESPONSIVE
+           ECRAN DE CHARGEMENT PREMIUM - FIXE
         ======================================== */
         .loader-overlay {
             position: fixed;
@@ -2731,6 +2731,12 @@
             text-align: center;
             padding: 20px;
             max-width: 90vw;
+            /* Position fixe pour rester centré */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
         }
 
         /* ========================================
