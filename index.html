@@ -2672,6 +2672,227 @@
 </head>
 
 <body>
+    <!-- ============================================
+    ECRAN DE CHARGEMENT AVEC LOGO IMAGE - CENUMEP
+    ============================================ -->
+    <div class="loader-overlay" id="loaderOverlay">
+        <div class="loader-container">
+            <!-- Logo animé avec image -->
+            <div class="loader-logo-wrapper">
+                <div class="loader-logo-ring"></div>
+                <div class="loader-logo">
+                    <!-- 
+                        INSTRUCTION: Remplacez l'URL ci-dessous par le chemin de votre image
+                        Exemple: 
+                        - image locale: "images/logo-cenumep.png"
+                        - image en ligne: "https://mon-site.com/logo.png"
+                    -->
+                    <img src="images/lg c.png" alt="CENUMEP Logo" class="loader-logo-img" />
+                </div>
+            </div>
+            
+            <!-- Nom du site -->
+            <div class="loader-brand">CENUMEP</div>
+            
+            <!-- Barre de progression -->
+            <div class="loader-progress-container">
+                <div class="loader-progress-bar" id="loaderProgressBar"></div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* ========================================
+           ECRAN DE CHARGEMENT AVEC IMAGE LOGO
+        ======================================== */
+        .loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0F4023;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        .loader-overlay.fade-out {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loader-container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Wrapper du logo */
+        .loader-logo-wrapper {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+        }
+
+        /* Anneau rotatif */
+        .loader-logo-ring {
+            position: absolute;
+            top: -6px;
+            left: -6px;
+            width: 132px;
+            height: 132px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top: 5px solid #C9A84C;
+            border-bottom: 5px solid #C9A84C;
+            animation: loaderSpin 1.2s cubic-bezier(0.6, 0, 0.4, 1) infinite;
+        }
+
+        /* Logo central avec image */
+        .loader-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            animation: loaderPulse 1.8s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loader-logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        @keyframes loaderSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes loaderPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.9; }
+            50% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
+        }
+
+        /* Nom du site */
+        .loader-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            animation: loaderFadeIn 1s ease;
+        }
+
+        /* Barre de progression */
+        .loader-progress-container {
+            width: 200px;
+            height: 3px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .loader-progress-bar {
+            width: 0%;
+            height: 100%;
+            background: #C9A84C;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        @keyframes loaderFadeIn {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ========================================
+           RESPONSIVE
+        ======================================== */
+        @media (max-width: 768px) {
+            .loader-logo-wrapper {
+                width: 90px;
+                height: 90px;
+            }
+            .loader-logo-ring {
+                width: 102px;
+                height: 102px;
+                border-width: 2.5px;
+            }
+            .loader-logo {
+                width: 60px;
+                height: 60px;
+            }
+            .loader-brand {
+                font-size: 1.6rem;
+            }
+            .loader-progress-container {
+                width: 160px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .loader-logo-wrapper {
+                width: 70px;
+                height: 70px;
+            }
+            .loader-logo-ring {
+                width: 82px;
+                height: 82px;
+                border-width: 2px;
+            }
+            .loader-logo {
+                width: 45px;
+                height: 45px;
+            }
+            .loader-brand {
+                font-size: 1.3rem;
+            }
+            .loader-progress-container {
+                width: 120px;
+            }
+        }
+    </style>
+
+    <script>
+        // ============================================
+        // GESTION DE L'ECRAN DE CHARGEMENT
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const loaderOverlay = document.getElementById('loaderOverlay');
+            const progressBar = document.getElementById('loaderProgressBar');
+
+            let progress = 0;
+
+            function updateLoader() {
+                const increment = Math.random() * 12 + 3;
+                progress = Math.min(progress + increment, 100);
+                
+                progressBar.style.width = progress + '%';
+
+                if (progress >= 100) {
+                    clearInterval(loaderInterval);
+                    setTimeout(function() {
+                        loaderOverlay.classList.add('fade-out');
+                    }, 400);
+                    return;
+                }
+            }
+
+            const loaderInterval = setInterval(updateLoader, 200);
+        });
+    </script>
 
     <!-- ============================================
     MODAL QR
